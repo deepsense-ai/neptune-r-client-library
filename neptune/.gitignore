@@ -1,0 +1,15 @@
+#########################
+# Standard R exclusions #
+#########################
+*.Rproj
+.Rbuildignore
+.RData
+.Rproj
+.Rhistory
+.Rproj.user/**
+
+###############################
+# Project-specific exclusions #
+###############################
+inst/java/*.jar
+man/**

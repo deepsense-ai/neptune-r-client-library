@@ -1,0 +1,50 @@
+###############################
+#          General            #
+###############################
+
+# PyCharm
+.idea/
+
+# Byte-compiled / optimized files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution/packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+*.tar.gz
+*.zip
+
+# virtualenv
+venv/
+ENV/
+windowsvenv/
+
+# IntelliJ
+*.iml
+
+# license
+licenses.txt
+client_licenses.txt
+.Rproj.user
+
+# Merge files
+*.orig
