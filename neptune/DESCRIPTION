@@ -1,0 +1,20 @@
+Encoding: UTF-8
+Package: neptune
+Version: 1.4.1
+Title: R proxy to Neptune Client Library
+Authors@R: c(
+    person("Anita", "Fronczak", email = "anita.fronczak@deepsense.io", role = "aut"),
+    person("Rafał", "Hryciuk", email = "rafal.hryciuk@deepsense.io", role = "aut"),
+    person("Dominik", "Jastrzębski", email = "dominik.jastrzebski@deepsense.io", role = c("cre", "aut")))
+Author: deepsense.io
+Maintainer: Dominik Jastrzębski <dominik.jastrzebski@deepsense.io>
+URL: http://neptune.deepsense.io/versions/1.4/
+BugReports: http://feedback.neptune.deepsense.io/
+Description: A library that proxies Java HTTP API to R.
+Depends:
+    R (>= 3.1.3),
+    rJava (>= 0.9-8)
+SystemRequirements: Java (>= 1.8)
+License: GPL-2
+NeedsCompilation: no
+RoxygenNote: 5.0.1
