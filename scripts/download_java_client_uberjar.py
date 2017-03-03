@@ -36,7 +36,7 @@ artifactory_url = 'http://artifactory.deepsense.codilime.com:8081/artifactory/' 
 print 'Downloading {}'.format(artifactory_url)
 
 try:
-    r = http.request('GET', artifactory_url)
+    r = http.request('GET', artifactory_url, timeout=urllib3.Timeout(connect=5.0))
 
     build_directory = 'build/'
     if not os.path.isdir(build_directory):
