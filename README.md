@@ -35,6 +35,8 @@ To install rJava, you need to configure the binding between R and Java:
 
 ## Building the Client Library
 
+It's recommended to use `virtualenv` when building the Client Library.
+
 Make sure you have set the [`R_LIBS_USER`](https://csg.sph.umich.edu/docs/R/localpackages.html)
 environment variable to a path in your home directory. If you don't, you'll need to run
 the following commands with root privileges.
