@@ -21,6 +21,7 @@ PROJECT_NAME="neptune"
 PROJECT_MODULE="client"
 VERSION_FILE="neptune/DESCRIPTION"
 VERSION=$(shell $(GREP) Version $(VERSION_FILE) | $(CUT) -d " " -f 2)
+export CLASSPATH=inst/java/java-client-library.jar
 
 USAGE="USAGE: make command [parameters]\n \
 	commands:\n \

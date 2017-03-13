@@ -18,11 +18,5 @@
   .jpackage(pkgname, lib.loc = libname)
   arguments <- commandArgs(trailingOnly=TRUE)
 
-  if (length(arguments) > 0) {
-    neptuneInit(pkgname, arguments)
-  } else {
-    warning(paste(
-      "No arguments to initialize Neptune Context.",
-      "This library should not be used outside Neptune jobs."))
-  }
+  neptuneInit(pkgname, arguments)
 }

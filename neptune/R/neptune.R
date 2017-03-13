@@ -26,7 +26,7 @@ neptuneInit <- function (pkgname, arguments) {
 }
 
 neptuneFinalizer <- function (context) {
-    neptuneContext()$stopThreads()
+    neptuneContext()$dispose()
 }
 
 neptuneContext <- function () {
@@ -159,6 +159,39 @@ params <- function (parameterName) {
     parameter$getValue()$asString()$orElse(NULL)
   } else {
     stop(paste("Unsupported parameter type:", parameterType))
+  }
+}
+
+#' Set offline parameters
+#'
+#' Sets offline parameters of the job with given parameters.
+#' Parameters are a set of user-defined variables that will be passed to the job's program.
+#' Supplied parameters are ignored if job is running in online context.
+#'
+#' @param ... offline job parameters of the job.
+#' @examples
+#' \donttest{
+#' offlineParams(parameterName1 = "paramterValue1", parameterValue2 = "parameterValue2")
+#' }
+#'
+#' @export
+offlineParams <- function (...) {
+  params <- neptuneContext()$getParams()
+  if (params %instanceof% "io.deepsense.neptune.clientlibrary.models.impl.parameters.OfflineJobParameters") {
+    offlineParams <- list(...)
+    for (parameterName in names(offlineParams)) {
+      if (!params$containsKey(parameterName)) {
+        rawValue <- offlineParams[[parameterName]]
+        parameterValue <- switch(typeof(rawValue),
+          "logical" = new(J("java.lang.Boolean"), rawValue),
+          "integer" = new(J("java.lang.Integer"), rawValue),
+          "double" = new(J("java.lang.Double"), rawValue),
+          "character" = new(J("java.lang.String"), rawValue))
+        params$put(parameterName, parameterValue)
+      }
+    }
+  } else {
+    warning(paste("Warning: Ignoring job parameters passed to neptuneContext."))
   }
 }
 
