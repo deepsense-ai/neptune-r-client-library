@@ -48,3 +48,8 @@ client_licenses.txt
 
 # Merge files
 *.orig
+
+# R workspace
+.Rhistory
+neptune-r-client-library.Rproj
+

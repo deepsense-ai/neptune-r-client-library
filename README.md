@@ -33,7 +33,12 @@ To install rJava, you need to configure the binding between R and Java:
 
 `sudo sh -c 'export JDK_HOME=<path to your Java JDK installation>; export JAVA_HOME=$JDK_HOME/jre; R CMD javareconf'`
 
-## Building the Client Library
+If rJava module fails to load with a message that `libjava.so` was not found,
+you may need to configure the `LD_LIBRARY_PATH` environment variable to add a path that contains this file.
+This environment variable has to be always set, so you may add it to your `~/.bashrc` file.
+Here is a script that fixes this issue, assuming that your Java is linked to `/usr/lib/java/default-java` directory:
+
+`export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/lib/jvm/default-java/jre/lib/amd64:/usr/lib/jvm/default-java/jre/lib/amd64/server"`
 
 It's recommended to use `virtualenv` when building the Client Library.
 
