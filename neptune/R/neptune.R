@@ -143,7 +143,10 @@ mapNullable <- function(nullable, getter) {
 params <- function (parameterName) {
 
   if (!neptuneContext()$getParams()$containsKey(parameterName)) {
-    stop(paste("Unknown parameter:", parameterName))
+    stop(sprintf(paste("neptune: Trying to access the '%s' parameter which is not defined.\n",
+    "          In order to run a Neptune job offline, you need to provide all parameters\n",
+    "          via command line or offlineParams function."),
+    parameterName))
   }
 
   parameter <- neptuneContext()$getParams()$get(parameterName)
