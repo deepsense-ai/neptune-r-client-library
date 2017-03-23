@@ -60,24 +60,6 @@ dumpDirUrl <- function () {
   neptuneContext()$getDumpDirUrl()$getSchemeSpecificPart()
 }
 
-#' Get metric name
-#'
-#' Gets metric name, if metric has been declared in config or NULL otherwise.
-#' Metric declares a channel, values of which, are used to compare jobs within an experiment.
-#'
-#' @return The metric name.
-#'
-#' @examples
-#' \donttest{
-#' metricNameValue <- metricName()
-#' }
-#'
-#' @export
-metricName <- function () {
-  metric <- neptuneContext()$getMetric()$orElse(NULL)
-  mapNullable(metric, function(metric) { metric$getName() })
-}
-
 #' Get metric channel name
 #'
 #' Gets metric channel name, if metric has been declared in config or NULL otherwise.

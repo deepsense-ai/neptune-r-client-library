@@ -110,7 +110,6 @@ channelSend(
 ### Accessing Metric Information
 
 ```R
-name <- metricName()
 channelName <- metricChannelName()
 direction <- metricDirection()
 ```
