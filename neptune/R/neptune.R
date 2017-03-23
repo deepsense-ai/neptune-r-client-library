@@ -195,18 +195,16 @@ offlineParams <- function (...) {
 #' @param channelName Name of the channel.
 #' @param isHistoryPersisted If True, all values sent to the channel are memorized.
 #'   Otherwise only the last value is available.
-#' @param isLastValueExposed If True, the channel values can be displayed on the job list.
 #' @examples
 #' \donttest{
 #' createNumericChannel("numericChannel1")
 #' }
 #'
 #' @export
-createNumericChannel <- function (channelName, isHistoryPersisted = TRUE, isLastValueExposed = TRUE) {
+createNumericChannel <- function (channelName, isHistoryPersisted = TRUE) {
   channel <- neptuneContext()$getJob()$createNumericChannel(
     channelName,
-    J("java.lang.Boolean")$valueOf(isHistoryPersisted),
-    J("java.lang.Boolean")$valueOf(isLastValueExposed))
+    J("java.lang.Boolean")$valueOf(isHistoryPersisted))
   channels$put(channelName, channel)
   invisible()
 }
@@ -226,18 +224,16 @@ createNumericChannel <- function (channelName, isHistoryPersisted = TRUE, isLast
 #' @param channelName Name of the channel.
 #' @param isHistoryPersisted If True, all values sent to the channel are memorized.
 #'   Otherwise only the last value is available.
-#' @param isLastValueExposed If True, the channel values can be displayed on the job list.
 #' @examples
 #' \donttest{
 #' createTextChannel("textChannel")
 #' }
 #'
 #' @export
-createTextChannel <- function (channelName, isHistoryPersisted = TRUE, isLastValueExposed = TRUE) {
+createTextChannel <- function (channelName, isHistoryPersisted = TRUE) {
   channel <- neptuneContext()$getJob()$createTextChannel(
     channelName,
-    J("java.lang.Boolean")$valueOf(isHistoryPersisted),
-    J("java.lang.Boolean")$valueOf(isLastValueExposed))
+    J("java.lang.Boolean")$valueOf(isHistoryPersisted))
   channels$put(channelName, channel)
   invisible()
 }
