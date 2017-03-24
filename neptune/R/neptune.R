@@ -16,11 +16,13 @@
 
 ctx <- NULL
 channels <- NULL
+charts <- NULL
 
 #' @import rJava
 neptuneInit <- function (pkgname, arguments) {
   ctx <<- J("io.deepsense.neptune.clientlibrary.NeptuneContextFactory")$createContext(arguments)
   channels <<- new(J("java.util.HashMap"))
+  charts <<- new(J("java.util.HashMap"))
   libraryNamespace <- getNamespace(pkgname)
   reg.finalizer(libraryNamespace, neptuneFinalizer, onexit = TRUE)
 }
@@ -385,28 +387,64 @@ createChart <- function (chartName, series) {
       createSeriesMapWithCustomNames(series)
     }
 
-  neptuneContext()$getJob()$createChart(chartName, seriesMap)
+  chart <- neptuneContext()$getJob()$createChart(chartName, seriesMap)
+  charts$put(chartName, chart)
   invisible()
 }
 
+
+#' Add a series to a chart
+#'
+#' Adds a new series specified by a name and a channel to the chart.
+#'
+#' @param chart Name of the chart the series will be added to.
+#' @param name Name of the added series
+#' @param channel Name of the channel of the series
+#' @param type (Optional) Type of the series.
+#'  Series type can be either "LINE" or "DOT". (default "LINE")
+#'
+#' @examples
+#' \donttest{
+#' addSeries(
+#'    chart = "chart",
+#'    name = "newSeries",
+#'    channel = "numericChannel1")
+#'
+#' addSeries(
+#'    chart = "chart2",
+#'    name = "numericChannel2Series",
+#'    channel = "numericChannel2",
+#'    type = "DOT")
+#' }
+#'
+#' @export
+addSeries <- function (chart, name, channel, type="LINE") {
+  chartObject <- charts$get(chart)
+  channelObject <- channels$get(channel)
+  typeObject <- J("io.deepsense.neptune.clientlibrary.models.ChartSeriesType")$valueOf(type)
+  chartObject$addSeries(name, channelObject, typeObject)
+}
+
 createSeriesMapWithDefaultNames <- function (series) {
-  seriesCollection <- neptuneContext()$getJob()$createChartSeriesCollection()
+  seriesCollection <- new(J("java.util.ArrayList"))
   for (i in 1:length(series)) {
     seriesAttrs <- getSeriesAttributes(series[[i]])
     channelName <- seriesAttrs[[1]]
     seriesType <- seriesAttrs[[2]]
-    seriesCollection$add(channelName, channels$get(channelName), seriesType)
+    newSeries <- new(J("io.deepsense.neptune.clientlibrary.models.ChartSeries"), channelName, channels$get(channelName), seriesType)
+    seriesCollection$add(newSeries)
   }
   seriesCollection
 }
 
 createSeriesMapWithCustomNames <- function (series) {
-  seriesCollection <- neptuneContext()$getJob()$createChartSeriesCollection()
+  seriesCollection <- new(J("java.util.ArrayList"))
   for (seriesName in names(series)) {
     seriesAttrs <- getSeriesAttributes(series[[seriesName]])
     channelName <- seriesAttrs[[1]]
     seriesType <- seriesAttrs[[2]]
-    seriesCollection$add(seriesName, channels$get(channelName), seriesType)
+    newSeries <- new(J("io.deepsense.neptune.clientlibrary.models.ChartSeries"), seriesName, channels$get(channelName), seriesType)
+    seriesCollection$add(newSeries)
   }
   seriesCollection
 }
