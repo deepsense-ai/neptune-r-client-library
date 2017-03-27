@@ -86,3 +86,39 @@ endef
 define err
 	$(call printMsg, $(1), $(COLOR_RED))
 endef
+
+check_artifactory:
+ifeq (,$(wildcard $(HOME)/.artifactory_credentials))
+	$(call err, ">>> File $(HOME)/.artifactory_credentials does not exist!")
+	@exit 1
+endif
+ifndef host
+	$(call err, "Variable 'host' is not defined in $(HOME)/.artifactory_credentials file")
+	@exit 1
+endif
+ifndef user
+	$(call err, "Variable 'user' is not defined in $(HOME)/.artifactory_credentials file")
+	@exit 1
+endif
+ifndef password
+	$(call err, "Variable 'password' is not defined in $(HOME)/.artifactory_credentials file")
+	@exit 1
+endif
+
+check_gerrit:
+ifeq (,$(wildcard $(HOME)/.gerrit_credentials))
+	$(call err, ">>> File $(HOME)/.gerrit_credentials does not exist!")
+	@exit 1
+endif
+ifndef gerritHost
+	$(call err, "Variable 'gerritHost' is not defined in $(HOME)/.gerrit_credentials file")
+	@exit 1
+endif
+ifndef gerritPort
+	$(call err, "Variable 'gerritPort' is not defined in $(HOME)/.gerrit_credentials file")
+	@exit 1
+endif
+ifndef gerritUser
+	$(call err, "Variable 'gerritUser' is not defined in $(HOME)/.gerrit_credentials file")
+	@exit 1
+endif
