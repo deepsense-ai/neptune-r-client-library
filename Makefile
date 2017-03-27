@@ -44,7 +44,7 @@ ifndef version
 	$(call err, ">>> No release version specified!")
 	@exit 1
 endif
-	@$(MAKE) prepare check_gerrit_variables clean set_version version=$(version) build commit_version tag_version publish release=true
+	@$(MAKE) prepare clean set_version version=$(version) build commit_version tag_version publish release=true
 	$(call inf, ">>> Version $(version) released")
 
 all: build
@@ -57,20 +57,6 @@ prepare:
 	$(SSH) -V
 	pip install -r test_requirements.txt
 	$(call inf, ">>> All prerequisites are met")
-
-check_gerrit_variables:
-ifndef gerritHost
-	$(call err, ">>> gerritHost variable is not defined in config file")
-	exit 1
-endif
-ifndef gerritPort
-	$(call err, ">>> gerritPort variable is not defined in config file")
-	exit 1
-endif
-ifndef gerritUser
-	$(call err, ">>> gerritUser variable is not defined in config file")
-	exit 1
-endif
 
 download_java_library:
 	$(call inf, ">>> Obtaining Java client library")
@@ -102,7 +88,7 @@ clean:
 	$(RM) -rf neptune/man
 	$(call inf, ">>> Environment cleaned")
 
-publish:
+publish: check_artifactory
 	$(call inf, ">>> Publishing built artifacts to Artifactory")
 ifndef release
 	$(call err, ">>> You must define define release=true|false!")
@@ -124,7 +110,7 @@ endif
 	$(SED) -ri "s/^Version:.*/Version: $(version)/g" $(VERSION_FILE)
 	$(call inf, ">>> Project version set to $(version)")
 
-commit_version:
+commit_version: check_gerrit
 	$(call inf, ">>> Pushing new version to remote")
 	$(GIT) add $(VERSION_FILE)
 	$(GIT) commit -m "Release version $(VERSION)"
@@ -132,7 +118,7 @@ commit_version:
 	$(SSH) -p $(gerritPort) $(gerritUser)@$(gerritHost) gerrit review --verified +1 --code-review +2 --submit --project $(PROJECT_NAME)-$(PROJECT_MODULE) `git rev-parse HEAD`
 	$(call inf, ">>> Version $(VERSION) pushed to remote")
 
-tag_version:
+tag_version: check_gerrit
 	$(call inf, ">>> Tagging repository")
 	$(call inf, ">>> Creating new tag: release-r-$(VERSION)")
 	$(GIT) tag -a "release-r-$(version)" -m "Release R $(VERSION)"
@@ -142,4 +128,3 @@ tag_version:
 
 tests: build
 	R CMD INSTALL dist/neptune_$(VERSION).tar.gz
-
