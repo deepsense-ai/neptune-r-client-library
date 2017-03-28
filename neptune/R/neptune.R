@@ -50,16 +50,16 @@ jobId <- function () {
   neptuneContext()$getJob()$getId()$toString()
 }
 
-#' Get dump directory location
+#' Get storage location
 #'
 #' Gets the location of a directory where the snapshot of job's source code
 #' and configuration is copied when the job is run.
 #'
-#' @return Dump directory location.
+#' @return Storage location.
 #'
 #' @export
-dumpDirUrl <- function () {
-  neptuneContext()$getDumpDirUrl()$getSchemeSpecificPart()
+storageUrl <- function () {
+  neptuneContext()$getStorageUrl()$getSchemeSpecificPart()
 }
 
 #' Get metric channel name
