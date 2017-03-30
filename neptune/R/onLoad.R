@@ -16,7 +16,12 @@
 
 .onLoad <- function(libname, pkgname) {
   .jpackage(pkgname, lib.loc = libname)
-  arguments <- commandArgs(trailingOnly=TRUE)
+
+  if ("jupyter:irkernel" %in% search()) {
+    arguments <- as.character(NULL)
+  } else {
+    arguments <- commandArgs(trailingOnly=TRUE)
+  }
 
   neptuneInit(pkgname, arguments)
 }
