@@ -381,7 +381,9 @@ channelValueToJava <- function (channelType, channelValue) {
 #' @export
 createChart <- function (chartName, series) {
   seriesMap <-
-    if (is.null(names(series))) {
+    if (length(series) == 0) {
+      new(J("java.util.ArrayList"))
+    } else if (is.null(names(series))) {
       createSeriesMapWithDefaultNames(series)
     } else {
       createSeriesMapWithCustomNames(series)
