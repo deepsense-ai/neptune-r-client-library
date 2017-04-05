@@ -30,7 +30,7 @@ repositories {
 }
 
 dependencies {
-    compile group: 'io.deepsense.neptune', name: 'neptune-client-library', version: 'not-released-yet'
+    compile group: 'io.deepsense.neptune', name: 'neptune-client-library', version: '1.5.0'
 }
 
 task wrapper(type: Wrapper) {
