@@ -18,7 +18,7 @@ include common.mk
 
 GIT_BRANCH=$(shell git branch | $(GREP) '*' | $(CUT) -d ' ' -f 2)
 PROJECT_NAME="neptune"
-PROJECT_MODULE="client"
+PROJECT_MODULE="r-client-library"
 VERSION_FILE="neptune/DESCRIPTION"
 VERSION=$(shell $(GREP) Version $(VERSION_FILE) | $(CUT) -d " " -f 2)
 export CLASSPATH=inst/java/java-client-library.jar
