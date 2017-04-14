@@ -1,6 +1,6 @@
 Encoding: UTF-8
 Package: neptune
-Version: 1.5.0
+Version: 1.6.0
 Title: R proxy to Neptune Client Library
 Authors@R: c(
     person("Anita", "Fronczak", email = "anita.fronczak@deepsense.io", role = "aut"),
