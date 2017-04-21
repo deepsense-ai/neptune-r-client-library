@@ -53,3 +53,6 @@ client_licenses.txt
 .Rhistory
 neptune-r-client-library.Rproj
 
+neptune/inst/
+neptune/man/
+neptune/log/
