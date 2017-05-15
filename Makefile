@@ -113,7 +113,7 @@ endif
 commit_version: check_gerrit
 	$(call inf, ">>> Pushing new version to remote")
 	$(GIT) add $(VERSION_FILE)
-	$(GIT) commit -m "Release version $(VERSION)"
+	$(GIT) commit --allow-empty -m "Release version $(VERSION)"
 	$(GIT) push origin HEAD:refs/publish/$(GIT_BRANCH)
 	$(SSH) -p $(gerritPort) $(gerritUser)@$(gerritHost) gerrit review --verified +1 --code-review +2 --submit --project $(PROJECT_NAME)-$(PROJECT_MODULE) `git rev-parse HEAD`
 	$(call inf, ">>> Version $(VERSION) pushed to remote")
