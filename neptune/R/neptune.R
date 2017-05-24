@@ -184,7 +184,7 @@ offlineParams <- function (...) {
 
 #' Create a new numeric channel
 #'
-#' Creates a new numeric channel with a given channelName and extra parameters.
+#' Creates a new numeric channel with a given channelName.
 #' A channel is a named series of two-dimensional points belonging to a job.
 #' Channels can be defined only from the job's source code.
 #' Each point's abscissa (point's X) is a floating point number.
@@ -195,25 +195,22 @@ offlineParams <- function (...) {
 #' so that the X-coordinates increase.
 #'
 #' @param channelName Name of the channel.
-#' @param isHistoryPersisted If True, all values sent to the channel are memorized.
-#'   Otherwise only the last value is available.
 #' @examples
 #' \donttest{
 #' createNumericChannel("numericChannel1")
 #' }
 #'
 #' @export
-createNumericChannel <- function (channelName, isHistoryPersisted = TRUE) {
+createNumericChannel <- function (channelName) {
   channel <- neptuneContext()$getJob()$createNumericChannel(
-    channelName,
-    J("java.lang.Boolean")$valueOf(isHistoryPersisted))
+    channelName)
   channels$put(channelName, channel)
   invisible()
 }
 
 #' Create a new text channel
 #'
-#' Creates a new text channel with a given channelName and extra parameters.
+#' Creates a new text channel with a given channelName.
 #' A channel is a named series of two-dimensional points belonging to a job.
 #' Channels can be defined only from the job's source code.
 #' Each point's abscissa (point's X) is a floating point number.
@@ -224,18 +221,15 @@ createNumericChannel <- function (channelName, isHistoryPersisted = TRUE) {
 #' so that the X-coordinates increase.
 #'
 #' @param channelName Name of the channel.
-#' @param isHistoryPersisted If True, all values sent to the channel are memorized.
-#'   Otherwise only the last value is available.
 #' @examples
 #' \donttest{
 #' createTextChannel("textChannel")
 #' }
 #'
 #' @export
-createTextChannel <- function (channelName, isHistoryPersisted = TRUE) {
+createTextChannel <- function (channelName) {
   channel <- neptuneContext()$getJob()$createTextChannel(
-    channelName,
-    J("java.lang.Boolean")$valueOf(isHistoryPersisted))
+    channelName)
   channels$put(channelName, channel)
   invisible()
 }
