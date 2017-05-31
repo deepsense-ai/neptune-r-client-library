@@ -392,7 +392,7 @@ createChart <- function (chartName, series) {
 #'
 #' @export
 deleteChart <- function (chartName) {
-  neptuneContext()$getJob()$createChart(chartName)
+  neptuneContext()$getJob()$deleteChart(chartName)
   invisible()
 }
 
