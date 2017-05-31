@@ -388,6 +388,14 @@ createChart <- function (chartName, series) {
   invisible()
 }
 
+#' Delete chart
+#'
+#' @export
+deleteChart <- function (chartName) {
+  neptuneContext()$getJob()$createChart(chartName)
+  invisible()
+}
+
 
 #' Add a series to a chart
 #'
