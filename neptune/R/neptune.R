@@ -429,6 +429,21 @@ addSeries <- function (chart, name, channel, type="LINE") {
   chartObject$addSeries(name, channelObject, typeObject)
 }
 
+
+#' Deletes a series from the chart
+#'
+#' Deletes a series specified by name from the chart specified.
+#'
+#' @param chart Name of the chart the series should be removed from.
+#' @param name Name of the series to be removed.
+#'
+#' @export
+deleteSeries <- function (chart, name) {
+  chartObject <- charts$get(chart)
+  chartObject$removeSeries(name)
+  invisible()
+}
+
 createSeriesMapWithDefaultNames <- function (series) {
   seriesCollection <- new(J("java.util.ArrayList"))
   for (i in 1:length(series)) {
