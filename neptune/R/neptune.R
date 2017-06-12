@@ -332,6 +332,28 @@ channelSend <- function (channelName, x, y) {
   invisible()
 }
 
+#' Reset a channel
+#'
+#' Deletes all values on a channel.
+#'
+#' @param channelName Name of the channel.
+#' \donttest{
+#' createNumericChannel("numericChannel")
+#' channelSend("numericChannel", 1, 2)
+#' channelSend("numericChannel", 2, 2)
+#' resetChannel("numericChannel")
+#' channelSend("numericChannel", 1, 5)
+#' channelSend("numericChannel", 2, 5)
+#' }
+#'
+#' @export
+
+resetChannel <- function (channelName) {
+  channel <- channels$get(channelName)
+  channel$reset()
+  invisible()
+}
+
 channelValueToJava <- function (channelType, channelValue) {
   if (channelType == "numeric" && !is.null(channelValue)) {
     numericChannelValue <- as.numeric(channelValue)
