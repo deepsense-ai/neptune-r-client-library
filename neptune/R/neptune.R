@@ -17,12 +17,14 @@
 ctx <- NULL
 channels <- NULL
 charts <- NULL
+actions <- NULL
 
 #' @import rJava
 neptuneInit <- function (pkgname, arguments) {
-  ctx <<- J("io.deepsense.neptune.clientlibrary.NeptuneContextFactory")$createContext(arguments)
+  ctx <<- J("io.deepsense.neptune.clientlibrary.models.impl.context.RNeptuneContextFactory")$createContext(arguments)
   channels <<- new(J("java.util.HashMap"))
   charts <<- new(J("java.util.HashMap"))
+  actions <<- list()
   libraryNamespace <- getNamespace(pkgname)
   reg.finalizer(libraryNamespace, neptuneFinalizer, onexit = TRUE)
 }
@@ -661,4 +663,10 @@ removeProperties <- function (...) {
 
   neptuneContext()$getJob()$getProperties()$keySet()$removeAll(keysToRemoveJava)
   invisible()
+}
+
+#' @export
+registerAction <- function (actionName, handler) {
+  actionId = neptuneContext()$getRApiClient()$registerAction(actionName)
+  actions[[actionId$toString()]] <- handler
 }
