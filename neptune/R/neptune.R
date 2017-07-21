@@ -17,14 +17,14 @@
 ctx <- NULL
 channels <- NULL
 charts <- NULL
-actions <- NULL
+action.env <- new.env()
 
 #' @import rJava
 neptuneInit <- function (pkgname, arguments) {
   ctx <<- J("io.deepsense.neptune.clientlibrary.models.impl.context.RNeptuneContextFactory")$createContext(arguments)
   channels <<- new(J("java.util.HashMap"))
   charts <<- new(J("java.util.HashMap"))
-  actions <<- list()
+  setActions(list())
   libraryNamespace <- getNamespace(pkgname)
   reg.finalizer(libraryNamespace, neptuneFinalizer, onexit = TRUE)
 }
@@ -667,6 +667,33 @@ removeProperties <- function (...) {
 
 #' @export
 registerAction <- function (actionName, handler) {
-  actionId = neptuneContext()$getRApiClient()$registerAction(actionName)
-  actions[[actionId$toString()]] <- handler
+  actionId = neptuneContext()$getRApiClient()$registerAction(actionName)$toString()
+  actions = getActions()
+  actions[[actionId]] = handler
+  setActions(actions)
+}
+
+#' @export
+executeInvokedActions <- function () {
+  invokedActions = neptuneContext()$getRApiClient()$getActionInvocations()
+  lapply(invokedActions, function (actionInvocation) {
+    actionId = actionInvocation$getActionId()
+    actions = getActions()
+    actionInvocationId = actionInvocation$getActionInvocationId()
+    invocationArg = actionInvocation$getArgument()
+    tryCatch({
+      result = actions[[actionId$toString()]](invocationArg)
+      neptuneContext()$getRApiClient()$markActionSuccessful(actionId, actionInvocationId, toString(result))
+    }, error = function (err) {
+      neptuneContext()$getRApiClient()$markActionFailed(actionId, actionInvocationId, toString(err))
+    })
+  })
+}
+
+getActions <- function() {
+  get("actions", envir=action.env)
+}
+
+setActions <- function(actions) {
+  assign("actions", actions, envir=action.env)
 }
