@@ -671,6 +671,7 @@ registerAction <- function (actionName, handler) {
   actions = getActions()
   actions[[actionId]] = handler
   setActions(actions)
+  invisible()
 }
 
 #' @export
@@ -688,6 +689,7 @@ executeInvokedActions <- function () {
       neptuneContext()$getRApiClient()$markActionFailed(actionId, actionInvocationId, toString(err))
     })
   })
+  invisible()
 }
 
 getActions <- function() {
